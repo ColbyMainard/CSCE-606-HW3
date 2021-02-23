@@ -23,6 +23,10 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #fail "Unimplemented"
 end
 
+And /I should not see "(.*)" before "(.*)"/ do |e1, e2|
+  page.body.index(e1).should > page.body.index(e2)
+end
+
 # Make it easier to express checking or unchecking several boxes at once
 #  "When I uncheck the following ratings: PG, G, R"
 #  "When I check the following ratings: G"
@@ -32,16 +36,24 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   #fail "Unimplemented"
+  rating_list.split(',').each do |rating|
+    if not uncheck
+      check("ratings_#{rating}")
+    else
+      uncheck("ratings_#{rating}")
+    end
+  end
 end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
   #fail "Unimplemented"
-  Movie.find(:all).each do |movie|
+  Movie.find_each do |movie|
     title = movie["title"]
     if page.respond_to? :should
       page.should have_content(title)
     else
       assert page.has_content?(title)
     end
+  end
 end
