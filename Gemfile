@@ -34,3 +34,9 @@ gem 'haml'
 gem 'protected_attributes'
 
 gem 'sqlite3', '~> 1.3.0'
+
+gem 'nokogiri', '1.11.1'
+gem 'loofah', '2.9.0'
+gem 'rake', '13.0.3'
+gem 'method_source', '1.0.0'
+gem 'sprockets', '3.7.2'
